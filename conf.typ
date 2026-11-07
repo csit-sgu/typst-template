@@ -66,6 +66,11 @@
 #let indent = 1.25cm
 #let font_size = 14pt
 #let figure_font_size = font_size - 2pt
+// Отступы вокруг таблиц и рисунков
+#let figure_spacing = (
+  table: (above: 24pt, below: 16pt, gap: 11pt),
+  image: (above: 15pt, below: 24pt, gap: 7.5pt),
+)
 // #let linespace = font_size
 #let line_spacing = 1.75em / 2
 #let styled = [#set text(red)].func()
@@ -559,6 +564,21 @@
       show figure.where(kind: table): set text(size: figure_font_size)
       show figure.where(kind: table): set align(left)
       show figure.where(kind: table): set block(breakable: true)
+
+      // Нижний отступ задаётся явным v(), чтобы он складывался с верхним отступом
+      // следующей фигуры.
+      show figure.where(kind: table): set block(above: figure_spacing.table.above, below: 0pt)
+      show figure.where(kind: image): set block(above: figure_spacing.image.above, below: 0pt)
+      show figure.where(kind: table): set figure(gap: figure_spacing.table.gap)
+      show figure.where(kind: image): set figure(gap: figure_spacing.image.gap)
+      show figure.where(kind: table): it => {
+        it
+        v(figure_spacing.table.below)
+      }
+      show figure.where(kind: image): it => {
+        it
+        v(figure_spacing.image.below)
+      }
 
       set terms(separator: [ --- ])
 
