@@ -658,6 +658,7 @@
         ),
       )
       set text(size: font_size, lang: "ru", font: main_font)
+      set par(leading: line_spacing, spacing: line_spacing)
 
       if settings.title_page.at("enabled", default: true) {
         (self.title.make)(self, info)
